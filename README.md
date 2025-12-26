@@ -86,5 +86,3 @@ available training material from the PortSwigger Web Security Academy.
 They are not intended for use against real-world systems without proper
 authorization.
 
-authorization.
-
