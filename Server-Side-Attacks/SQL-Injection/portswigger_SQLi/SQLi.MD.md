@@ -11,7 +11,7 @@ We want to change the query to say: "Show me products where the category is 'Gif
 
 By adding OR 1=1, we force the database to return every single row in the table, regardless of whether it is "released" or not. We also use a comment character (--) to ignore the rest of the original query (the part that checks if released = 1).
 
-Step-by-Step Walkthrough
+##**Step-by-Step Walkthrough**
 You can use Burp Suite for this, or simply edit the URL in your browser.
 
 Step 1: Analyze the URL
@@ -27,7 +27,7 @@ We need to inject code that closes the category string and adds our "True" condi
 
 Payload: ' OR 1=1--
 
-Breakdown:
+**Breakdown:**
 
 ' : Closes the data field ('Gifts').
 
@@ -54,7 +54,7 @@ The page should reload and show all products, including ones you didn't see befo
 
 # **LAB 2  : SQL injection vulnerability allowing login bypass**
 
-The Core Concept
+##**The Core Concept**
 This lab uses the exact same logic as the previous "Hidden Data" lab, but applies it to the Login Page.
 
 The database query for logging in usually looks like this: SELECT * FROM users WHERE username = 'USER_INPUT' AND password = 'PASSWORD_INPUT'
@@ -67,7 +67,7 @@ Our Goal: SELECT * FROM users WHERE username = 'administrator'--' AND password =
 
 Result: The database reads "Find the user named administrator." It sees the -- and thinks "Everything after this is just a comment/note," so it ignores the password check entirely.
 
-Step-by-Step Walkthrough
+##**Step-by-Step Walkthrough**
 You can use Burp Suite or just the browser login form.
 
 Step 1: Identify the Target
