@@ -4,29 +4,100 @@ cheatsheet :[SQL injection cheat sheet | Web Security Academy](https://portswigg
 
 # lab 1 : **SQL injection vulnerability in WHERE clause allowing retrieval of hidden data**
 
-just put thIS in the url :category='+OR+1=1—
+##**The Core Concept**
+This is the most fundamental SQL injection attack. The application is trying to run a query that says: "Show me products where the category is 'Gifts' AND the product is released."
 
-when we applied the filter in the categories the url has and category parameter :
+We want to change the query to say: "Show me products where the category is 'Gifts' OR 1 equals 1 (which is always true)."
 
+By adding OR 1=1, we force the database to return every single row in the table, regardless of whether it is "released" or not. We also use a comment character (--) to ignore the rest of the original query (the part that checks if released = 1).
+
+Step-by-Step Walkthrough
+You can use Burp Suite for this, or simply edit the URL in your browser.
+
+Step 1: Analyze the URL
+Open the lab.
+
+Click on a category filter, for example, "Gifts".
 ![image.png](image.png)
 
-i used the boolean based payload for this injection and also used the + (url encoded for space ) 
+Look at the URL in your browser address bar. It should look like: .../filter?category=Gifts
+
+Step 2: Construct the Payload
+We need to inject code that closes the category string and adds our "True" condition.
+
+Payload: ' OR 1=1--
+
+Breakdown:
+
+' : Closes the data field ('Gifts').
+
+OR 1=1 : The logic hack. Since 1 always equals 1, the database includes everything.
+
+-- : The comment symbol. It tells the database to ignore everything that comes after it (specifically, the AND released = 1 check).
+
+Step 3: Inject the Attack
+Go to the URL bar in your browser.
+
+Delete Gifts and replace it with your payload.
+
+Note: Browsers don't like spaces in URLs, so we often use + instead of space.
+
+Full URL ending: .../filter?category='+OR+1=1--
+
+Press Enter.
+
+Step 4: Verify Success
+The page should reload and show all products, including ones you didn't see before (the unreleased/hidden products). Then lab will be marked as Solved.
+
+
+
 
 # **LAB 2  : SQL injection vulnerability allowing login bypass**
 
-for this lab i used the concept of bypassing the authentication using sql injection 
+The Core Concept
+This lab uses the exact same logic as the previous "Hidden Data" lab, but applies it to the Login Page.
 
-we have to login as administrator and if i use the password =123455678 
+The database query for logging in usually looks like this: SELECT * FROM users WHERE username = 'USER_INPUT' AND password = 'PASSWORD_INPUT'
 
-for this the query should look like this : 
+We want to trick the database into stopping immediately after it checks the username, completely ignoring the password check.
 
-SELECT * FROM users WHERE username=’administrator’ AND password=”12345678”
+We do this by inserting a Comment Character (--).
 
-we can break this query by using username = administrator’ — 
+Our Goal: SELECT * FROM users WHERE username = 'administrator'--' AND password = '...'
 
-now the query become :
+Result: The database reads "Find the user named administrator." It sees the -- and thinks "Everything after this is just a comment/note," so it ignores the password check entirely.
 
-SELECT * FROM users WHERE username=’administrator’
+Step-by-Step Walkthrough
+You can use Burp Suite or just the browser login form.
+
+Step 1: Identify the Target
+Open the lab and go to the "My account" login page.
+
+We know the username is administrator (as stated in the lab description).
+
+Step 2: Construct the Payload
+We need to close the username string and comment out the rest.
+
+Payload: administrator'--
+
+Breakdown:
+
+administrator: The user we want to become.
+
+': Closes the username data field.
+
+--: The comment symbol (in PostgreSQL and many other SQL languages).
+
+Step 3: Inject the Attack
+In the Username box, type: administrator'--
+
+In the Password box, type anything (e.g., abc). It doesn't matter because the database will ignore it.
+
+Click Login.
+
+Step 4: Verify Success
+You should be logged in immediately as the administrator. The lab is marked as Solved.
+
 
 # LAB 3 :  **SQL injection attack, querying the database type and version on Oracle**
 
