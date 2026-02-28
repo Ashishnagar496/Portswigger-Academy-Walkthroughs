@@ -1,6 +1,6 @@
-# SQL Injection Labs — PortSwigger Solutions
+#—PortSwigger Solutions
 
-This repository contains my personal notes and step-by-step solutions for SQL Injection labs from PortSwigger Web Security Academy.
+This repository contains my personal notes and step-by-step solutions labs from PortSwigger Web Security Academy.
 
 ## 📌 What This Folder Contains
 
