@@ -13,7 +13,7 @@ This repository contains my personal notes and step-by-step solutions labs from 
 
 The purpose of this repository is to:
 
-- Strengthen SQL Injection fundamentals  
+- Strengthen Web Hacking fundamentals  
 - Practice real-world attack scenarios safely  
 - Improve web security and bug bounty skills  
 
